@@ -7,7 +7,7 @@
 debug=1
 
 enable_rates_output=1 # enable (1) or disable (0) output monitoring lines for plotting rates
-enable_reflector_output=1 # enable (1) or disable (0) output monitoring lines for reflectors
+enable_reflector_output=0 # enable (1) or disable (0) output monitoring lines for reflectors
 
 ul_if=wan # upload interface
 dl_if=veth-lan # download interface
