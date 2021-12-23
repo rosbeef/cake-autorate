@@ -6,7 +6,8 @@
 
 debug=1
 
-enable_verbose_output=1 # enable (1) or disable (0) output monitoring lines showing bandwidth changes
+enable_rates_output=1 # enable (1) or disable (0) output monitoring lines for plotting rates
+enable_reflector_output=1 # enable (1) or disable (0) output monitoring lines for reflectors
 
 ul_if=wan # upload interface
 dl_if=veth-lan # download interface
@@ -80,7 +81,7 @@ BASELINES_prev=$(mktemp)
 BASELINES_cur=$(mktemp)
 
 
-if [ $enable_verbose_output -eq 1 ]; then
+if [ $enable_rates_output -eq 1 ]; then
 	RED='\033[0;31m'
 	NC='\033[0m' # No Color
 fi
@@ -173,7 +174,7 @@ function update_rates {
         cur_dl_rate=$( get_next_shaper_rate "$min_downlink_delta" "$max_delta_OWD" "$cur_dl_rate" "$base_dl_rate" "$rx_load" "$load_thresh" "$rate_adjust_OWD_spike" "$rate_adjust_load_high" "$rate_adjust_load_low")
         cur_ul_rate=$( get_next_shaper_rate "$min_uplink_delta" "$max_delta_OWD" "$cur_ul_rate" "$base_ul_rate" "$tx_load" "$load_thresh" "$rate_adjust_OWD_spike" "$rate_adjust_load_high" "$rate_adjust_load_low")
 
-        if [ $enable_verbose_output -eq 1 ]; then
+        if [ $enable_rates_output -eq 1 ]; then
                 printf "${RED} %s;%14.2f;%14.2f;%14.2f;%14.2f;%14.2f;%14.2f;${NC}\n" $( date "+%Y%m%dT%H%M%S.%N" ) $rx_load $tx_load $min_downlink_delta $min_uplink_delta $cur_dl_rate $cur_ul_rate
         fi
 }
@@ -212,7 +213,7 @@ get_min_OWD_deltas() {
 		# maintain previous baseline for reflector and continue to next reflector
 		if [ "$uplink_OWD" = "999999999" ] || [ "$downlink_OWD" = "999999999" ]; then
 			echo $reflector $prev_uplink_baseline $prev_downlink_baseline >> $BASELINES_cur 
-        		if [ $enable_verbose_output -eq 1 ]; then
+        		if [ $enable_reflector_output -eq 1 ]; then
                 		echo $reflector "No Response. Skipping this reflector."
         		fi
 			continue
@@ -221,7 +222,7 @@ get_min_OWD_deltas() {
 		delta_uplink_OWD=$( call_awk "${uplink_OWD} - ${prev_uplink_baseline}" )
 		delta_downlink_OWD=$( call_awk "${downlink_OWD} - ${prev_downlink_baseline}" )
 
-        	if [ $enable_verbose_output -eq 1 ]; then
+        	if [ $enable_reflector_output -eq 1 ]; then
                 	printf "%25s;%14.2f;%14.2f;%14.2f;%14.2f;%14.2f;%14.2f;\n" $reflector $prev_downlink_baseline $downlink_OWD $delta_downlink_OWD $prev_uplink_baseline $uplink_OWD $delta_uplink_OWD 
         	fi
 
@@ -269,7 +270,7 @@ t_prev_bytes=$(date +%s.%N)
 prev_rx_bytes=$(cat $rx_bytes_path)
 prev_tx_bytes=$(cat $tx_bytes_path)
 
-if [ $enable_verbose_output -eq 1 ]; then
+if [ $enable_rates_output -eq 1 ]; then
         printf "%25s;%14s;%14s;%14s;%14s;%14s;%14s;%14s;\n" "log_time" "rx_load" "tx_load" "min_dl_delta" "min_ul_delta" "cur_dl_rate" "cur_ul_rate"
 fi
 
