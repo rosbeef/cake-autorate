@@ -155,6 +155,7 @@ and start/enable it:
    ```bash
    cd /etc/init.d
    wget https://raw.githubusercontent.com/lynxthecat/sqm-autorate/main/sqm-autorate 
+   chmod +x ./sqm-autorate
    service sqm-autorate start
    service sqm-autorate enable
    ```
