@@ -6,6 +6,11 @@ bandwidth settings by measuring traffic load and RTT times.
 Read the [README](./README.md) file for more details.
 This is the history of changes.
 
+## 2022-02-04
+
+- Created new experimental-rapid-tick branch in which pings are made asynchronous with the main loop offering significantly more rapid ticks
+- Corrected main and both experimental branches to work with min RTT output from each ping call (not average)
+
 ## 2021-12-11
 
 - Modified tick duration to 1s and timeout duration to 0.8 seconds in 'owd' code
