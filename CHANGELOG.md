@@ -6,6 +6,16 @@ bandwidth settings by measuring traffic load and RTT times.
 Read the [README](./README.md) file for more details.
 This is the history of changes.
 
+## 2022-02-18
+
+- Altered CAKE-autorate to employ inotifywait for main loop ticks
+- Now main loops ticks are triggered either by a delay event or tick trigger (whichever comes first)
+
+## 2022-02-17
+
+- Completed and uploaded to new CAKE-autorate branch completely new bash implementation
+- This will likely be the future for this project 
+
 ## 2022-02-04
 
 - Created new experimental-rapid-tick branch in which pings are made asynchronous with the main loop offering significantly more rapid ticks
