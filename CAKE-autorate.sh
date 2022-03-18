@@ -151,7 +151,7 @@ do
 
 		t_start=${EPOCHREALTIME/./}
 		# Skip past any ping results older than 500ms (clutch)
-		#((($t_start-"${timestamp//[[\[\].]}")>500000)) && echo "WARNING: encountered response from [" $reflector "] that is > 500ms old. Skipping." && continue
+		((($t_start-"${timestamp//[[\[\].]}""0")>500000)) && echo "WARNING: encountered response from [" $reflector "] that is > 500ms old. Skipping." && continue
 
 		RTT=$(printf %.0f\\n "${RTT}e3")
 	
