@@ -24,7 +24,6 @@ update_loads()
         t_prev_bytes=$t_cur_bytes
         prev_rx_bytes=$cur_rx_bytes
         prev_tx_bytes=$cur_tx_bytes
-
 }
 
 update_baseline()
@@ -146,11 +145,13 @@ while true
 do
 	while read -r timestamp reflector _ seq timeout _ RTT _ _
 	do 
+
 		# Skip any timeouts
 		[[ $timeout -eq "timed" ]] && continue
 
 		t_start=${EPOCHREALTIME/./}
-		((("${timestamp//[[\[\].]}"-$t_start)>500000)) && echo "WARNING: encountered response from [" $reflector "] that is > 500ms old. Skipping." && continue
+		# Skip past any ping results older than 500ms (clutch)
+		#((($t_start-"${timestamp//[[\[\].]}")>500000)) && echo "WARNING: encountered response from [" $reflector "] that is > 500ms old. Skipping." && continue
 
 		RTT=$(printf %.0f\\n "${RTT}e3")
 	
@@ -194,12 +195,12 @@ do
        		# fire up tc if there are rates to change
 		if (( $cur_dl_rate != $last_dl_rate)); then
        			(($output_cake_changes)) && echo "tc qdisc change root dev ${dl_if} cake bandwidth ${cur_dl_rate}Kbit"
-#       			tc qdisc change root dev ${dl_if} cake bandwidth ${cur_dl_rate}Kbit
+       			tc qdisc change root dev ${dl_if} cake bandwidth ${cur_dl_rate}Kbit
 			t_prev_dl_rate_set=${EPOCHREALTIME/./}
 		fi
        		if (( $cur_ul_rate != $last_ul_rate )); then
          		(($output_cake_changes)) && echo "tc qdisc change root dev ${ul_if} cake bandwidth ${cur_ul_rate}Kbit"
-#       			tc qdisc change root dev ${ul_if} cake bandwidth ${cur_ul_rate}Kbit
+       			tc qdisc change root dev ${ul_if} cake bandwidth ${cur_ul_rate}Kbit
 			t_prev_ul_rate_set=${EPOCHREALTIME/./}
 		fi
 		
