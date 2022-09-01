@@ -149,4 +149,4 @@ so they will be saved in backups and preserved across snapshot upgrades.
   
 ## A Request to Testers
 
-If you use this script I have just one ask. Please post your experience on this [OpenWrt Forum thread](https://forum.openwrt.org/t/cake-w-adaptive-bandwidth/108848/). Your feedback will help improve the script for the benefit of others.  
+If you use this script I have just one ask. Please post your experience on this [OpenWrt Forum thread](https://forum.openwrt.org/t/cake-w-adaptive-bandwidth/135379). But first if you have time please read the [Historic thread here](https://forum.openwrt.org/t/cake-w-adaptive-bandwidth/108848/). Your feedback will help improve the script for the benefit of others.  
